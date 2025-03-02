@@ -1,0 +1,34 @@
+/* style.css */
+.pixelated {
+    image-rendering: pixelated;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+  }
+  
+  /* Card flip animation */
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  /* Holographic effect */
+  .holographic-effect {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      45deg,
+      rgba(255,0,0,0.1),
+      rgba(255,255,0,0.1),
+      rgba(0,255,0,0.1),
+      rgba(0,255,255,0.1),
+      rgba(0,0,255,0.1),
+      rgba(255,0,255,0.1)
+    );
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    animation: holo-animation 3s infinite linear;
+  }
+  
+  @keyframes holo-animation {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 200%; }
+  }

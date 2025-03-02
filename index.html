@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Card Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-blue-900 overflow-hidden">
+    <div id="root"></div>
+
+    <!-- Load config first before other scripts -->
+    <script src="config.js"></script>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel" src="src/utils/helpers.js"></script>
+    <script type="text/babel" src="src/services/ApiService.js"></script>
+    <script type="text/babel" src="src/components/GameStateInfo.js"></script>
+    <script type="text/babel" src="src/components/GenerationInput.js"></script>
+    <script type="text/babel" src="src/components/CardDisplay.js"></script>
+    <script type="text/babel" src="src/components/CardInfoPanel.js"></script>
+    <script type="text/babel" src="src/components/HandDisplay.js"></script>
+    <script type="text/babel" src="src/components/CardGameInterface.js"></script>
+    <script type="text/babel" src="src/app.js"></script>
+
+</body>
+</html>

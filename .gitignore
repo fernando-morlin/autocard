@@ -1,0 +1,8 @@
+# API Keys and configuration
+mykeys.env
+config.js
+.env
+
+# Common exclusions
+node_modules/
+.DS_Store
