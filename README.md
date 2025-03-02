@@ -118,10 +118,6 @@ To fully utilize AutoCard, you'll need to set up API keys for the AI services:
 
 Contributions are welcome! Feel free to submit pull requests with bug fixes, improvements, or new features.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgments
 
 *   This project utilizes the free Stable Horde API to generate images.  Please be mindful of their usage guidelines.
