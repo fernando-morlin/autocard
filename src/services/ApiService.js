@@ -33,8 +33,8 @@ window.ApiService = {
                     body: JSON.stringify({
                         prompt: enhancedPrompt,
                         params: {
-                            width: 512,
-                            height: 768,
+                            width: 512,      // Multiple of 64
+                            height: 704,     // Changed from 720 to 704 (multiple of 64)
                             steps: 30,
                             sampler_name: "k_euler_a",
                             cfg_scale: 7.5,

@@ -6,7 +6,8 @@ const HandDisplay = ({ generatedCard, cardsInHand }) => {
         <div className="flex space-x-2">
           {/* Show generated card in hand if available */}
           {generatedCard && (
-            <div className="relative min-w-[60px] h-24 transform hover:scale-110 hover:-translate-y-2 transition-transform cursor-pointer">
+            <div className="relative min-w-[60px] transform hover:scale-110 hover:-translate-y-2 transition-transform cursor-pointer" 
+                 style={{ width: "60px", height: "84px" }}>  {/* Fixed 3:4.2 ratio */}
               <img
                 src={generatedCard}
                 alt="Card in hand"
@@ -19,7 +20,8 @@ const HandDisplay = ({ generatedCard, cardsInHand }) => {
           {Array.from({ length: Math.max(0, cardsInHand - (generatedCard ? 1 : 0)) }).map((_, index) => (
             <div
               key={index}
-              className="relative min-w-[60px] h-24 bg-gradient-to-br from-red-900 to-red-700 rounded-md border-2 border-yellow-400 transform hover:scale-110 hover:-translate-y-2 transition-transform cursor-pointer"
+              className="relative min-w-[60px] bg-gradient-to-br from-red-900 to-red-700 rounded-md border-2 border-yellow-400 transform hover:scale-110 hover:-translate-y-2 transition-transform cursor-pointer"
+              style={{ width: "60px", height: "84px" }}  /* Fixed 3:4.2 ratio */
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-xl font-bold text-yellow-500">★</div>
