@@ -1,25 +1,86 @@
 // src/utils/helpers.js
 // Make sure these functions are declared in the global scope
-window.getPlaceholderImage = function(prompt) {
+window.getPlaceholderImage = function(prompt, elementType = null) {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 768;
     const ctx = canvas.getContext('2d');
-
-    const hash = prompt.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0);
-    const hue = hash % 360;
-
-    ctx.fillStyle = `hsl(${hue}, 70%, 30%)`;
+    let hue;
+    // If element is provided, use element-specific color
+    if (elementType) {
+        switch (elementType) {
+            case window.GameConstants.ELEMENTS.FIRE:
+                hue = 0; // Red
+                break;
+            case window.GameConstants.ELEMENTS.WATER:
+                hue = 210; // Blue
+                break;
+            case window.GameConstants.ELEMENTS.EARTH:
+                hue = 120; // Green
+                break;
+            case window.GameConstants.ELEMENTS.AIR:
+                hue = 195; // Light blue
+                break;
+            case window.GameConstants.ELEMENTS.LIGHT:
+                hue = 60; // Yellow
+                break;
+            case window.GameConstants.ELEMENTS.SHADOW:
+                hue = 270; // Purple
+                break;
+            default:
+                // If no valid element, calculate based on prompt
+                const hash = prompt.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0);
+                hue = hash % 360;
+        }
+    } else {
+        // Calculate hue based on prompt
+        const hash = prompt.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0);
+        hue = hash % 360;
+    }
+    // Background gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, `hsl(${hue}, 70%, 20%)`);
+    gradient.addColorStop(1, `hsl(${hue}, 70%, 30%)`);
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = `hsl(${hue}, 70%, 40%)`;
-    ctx.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
-
+    // Add a border
+    ctx.strokeStyle = `hsl(${hue}, 90%, 50%)`;
+    ctx.lineWidth = 10;
+    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+    // Add a symbol in the middle
     ctx.fillStyle = 'white';
     ctx.font = '28px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Card Image', canvas.width / 2, canvas.height / 2 - 20);
-
+    
+    if (elementType) {
+        ctx.fillText(`${elementType} Card`, canvas.width / 2, canvas.height / 2 - 20);
+    } else {
+        ctx.fillText('Card Image', canvas.width / 2, canvas.height / 2 - 20);
+    }
+    
+    // Add prompt text
+    ctx.font = '18px sans-serif';
+    
+    // Wrap text if needed
+    const maxWidth = canvas.width - 60;
+    const words = prompt.split(' ');
+    let line = '';
+    let y = canvas.height / 2 + 20;
+    
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        
+        if (testWidth > maxWidth && i > 0) {
+            ctx.fillText(line, canvas.width / 2, y);
+            line = words[i] + ' ';
+            y += 25;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, canvas.width / 2, y);
     return canvas.toDataURL('image/png');
 }
 

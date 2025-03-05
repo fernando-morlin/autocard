@@ -27,7 +27,8 @@ Your response MUST follow this JSON format:
     {"name": "ability name", "description": "brief description", "actionCost": 1-3}
   ],
   "effectText": "Brief description of the creature's abilities in battle",
-  "flavorText": "Short atmospheric quote or description"
+  "flavorText": "Short atmospheric quote or description",
+  "userDescription": "${description}"
 }
 
 Follow these rules:
@@ -39,6 +40,7 @@ Follow these rules:
 2. Choose an element that fits the creature's theme and description
 3. Create abilities that match both the class role and elemental type
 4. Higher rarity creatures should have better overall stats and abilities
+5. IMPORTANT: Include the original description in the userDescription field
 
 Return ONLY the JSON object without explanation.`;
 
@@ -93,8 +95,19 @@ Return ONLY the JSON object without explanation.`;
           specialAbilities: creatureInfo.specialAbilities || [],
           effectText: creatureInfo.effectText || `This creature harnesses the power of ${creatureInfo.element || "elements"}.`,
           flavorText: creatureInfo.flavorText || `"${description}"`,
-          setId: `SET-${Math.floor(Math.random() * 99).toString().padStart(2, '0')}`
+          setId: `SET-${Math.floor(Math.random() * 99).toString().padStart(2, '0')}`,
+          // Directly set userDescription from original description or from the AI response
+          userDescription: description || creatureInfo.userDescription || ""
         };
+
+        // Generate image for the creature
+        try {
+          const imageUrl = await window.ImageGenerationService.generateCreatureImage(creature);
+          creature.imageUrl = imageUrl;
+        } catch (imageError) {
+          console.error("Error generating creature image:", imageError);
+          creature.imageUrl = window.getPlaceholderImage(creature.name);
+        }
 
         return creature;
       } catch (apiError) {
@@ -189,7 +202,7 @@ window.generateFallbackCreature = async (description) => {
     actionCost: creatureClass === CLASSES.TRICKSTER ? 1 : 2
   };
   
-  return {
+  const creature = {
     ...window.CardModels.creatureCardModel,
     name,
     cardId: `CRT-${Math.floor(Math.random() * 999).toString().padStart(3, '0')}`,
@@ -211,4 +224,15 @@ window.generateFallbackCreature = async (description) => {
     flavorText: `"The ${element}'s power flows through this ${creatureClass.toLowerCase()}, making it a formidable ally in battle."`,
     setId: `SET-${Math.floor(Math.random() * 99).toString().padStart(2, '0')}`
   };
+
+  // Generate image for the fallback creature
+  try {
+    const imageUrl = await window.ImageGenerationService.generateCreatureImage(creature);
+    creature.imageUrl = imageUrl;
+  } catch (imageError) {
+    console.error("Error generating creature image:", imageError);
+    creature.imageUrl = window.getPlaceholderImage(creature.name);
+  }
+
+  return creature;
 };

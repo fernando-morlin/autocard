@@ -9,7 +9,8 @@ const baseCardModel = {
   rarity: 0,
   rarityText: "",
   flavorText: "",
-  setId: ""
+  setId: "",
+  imageUrl: "" // Added imageUrl property
 };
 
 // Creature-specific model

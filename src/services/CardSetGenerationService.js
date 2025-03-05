@@ -1,4 +1,3 @@
-// src/services/CardSetGenerationService.js
 const { CARD_CATEGORIES } = window.GameConstants;
 
 window.CardSetGenerationService = {
@@ -8,6 +7,7 @@ window.CardSetGenerationService = {
       
       // Step 1: Generate the creature
       const creature = await window.CreatureGenerationService.generateCreature(description);
+      creature.userDescription = description; // Add user description to creature
       console.log("Generated creature:", creature);
       
       // Step 2: Determine item categories to generate
@@ -28,7 +28,6 @@ window.CardSetGenerationService = {
       // Add the remaining categories
       for (const category of optionalCategories) {
         if (itemCategories.length < 4) {
-          // If we don't have enough yet, add this category
           itemCategories.push(category);
         }
       }
@@ -44,9 +43,9 @@ window.CardSetGenerationService = {
         }
       }
       
-      // Step 3: Generate the items
+      // Step 3: Generate the items in parallel for efficiency
       console.log("Generating items with categories:", itemCategories);
-      const items = [];
+      const itemPromises = [];
       const usedItemTypes = new Set();
       
       for (const category of itemCategories) {
@@ -69,38 +68,45 @@ window.CardSetGenerationService = {
             itemDescription = `an item for a ${creature.element} ${creature.class}`;
         }
         
-        // Generate the item
-        let item;
-        let attempts = 0;
-        const maxAttempts = 3;
-        
-        while (attempts < maxAttempts) {
-          item = await window.ItemGenerationService.generateItem(itemDescription, category, creature);
-          
-          // Check if this item type is already used
-          if (!usedItemTypes.has(item.itemType)) {
-            usedItemTypes.add(item.itemType);
-            break;
-          }
-          
-          attempts++;
-          if (attempts === maxAttempts) {
-            console.warn(`Could not generate a unique item type after ${maxAttempts} attempts for category ${category}`);
-            // On the last attempt, force a different item type
-            const availableTypes = window.GameConstants.ITEM_CATEGORY_TYPES[category].filter(
-              type => !usedItemTypes.has(type)
-            );
+        // Add item generation to promises array
+        itemPromises.push(
+          (async () => {
+            let item;
+            let attempts = 0;
+            const maxAttempts = 3;
             
-            if (availableTypes.length > 0) {
-              // Override the item type with an unused one
-              item.itemType = availableTypes[0];
-              usedItemTypes.add(item.itemType);
+            while (attempts < maxAttempts) {
+              item = await window.ItemGenerationService.generateItem(itemDescription, category, creature, description);
+              
+              // Check if this item type is already used
+              if (!usedItemTypes.has(item.itemType)) {
+                usedItemTypes.add(item.itemType);
+                return item;
+              }
+              
+              attempts++;
+              if (attempts === maxAttempts) {
+                console.warn(`Could not generate a unique item type after ${maxAttempts} attempts for category ${category}`);
+                const availableTypes = window.GameConstants.ITEM_CATEGORY_TYPES[category].filter(
+                  type => !usedItemTypes.has(type)
+                );
+                
+                if (availableTypes.length > 0) {
+                  // Override the item type with an unused one
+                  item.itemType = availableTypes[0];
+                  usedItemTypes.add(item.itemType);
+                }
+                return item;
+              }
             }
-          }
-        }
-        
-        items.push(item);
+            
+            return item;
+          })()
+        );
       }
+      
+      // Await all item generation
+      const items = await Promise.all(itemPromises);
       
       // Step 4: Create and validate the card set
       const cardSet = {

@@ -1,4 +1,3 @@
-// src/components/CardSetDisplay.js
 const CardSetDisplay = ({ cardSet, isGenerating }) => {
   if (!cardSet && !isGenerating) {
     return (
@@ -17,6 +16,28 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
       </div>
     );
   }
+
+  // Helper function to render image with loading state
+  const renderCardImage = (imageUrl, name, size = "h-48") => {
+    if (!imageUrl) {
+      return (
+        <div className={`w-full ${size} bg-gray-800 flex items-center justify-center animate-pulse`}>
+          <div className="text-yellow-300 text-sm">Generating image...</div>
+        </div>
+      );
+    }
+    
+    return (
+      <img 
+        src={imageUrl} 
+        alt={name}
+        className={`w-full ${size} object-cover`}
+        style={{
+          background: 'linear-gradient(to bottom, #1a202c, #2d3748)'
+        }}
+      />
+    );
+  };
 
   const { creature, items, isValid, validationMessages } = cardSet;
   const effectiveStats = window.CardSetUtils.calculateEffectiveStats(creature, items);
@@ -38,17 +59,21 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
           </div>
         )}
 
-        {/* Creature section */}
+        {/* Creature section - Updated with image */}
         <div className="mb-6">
           <h2 className="text-yellow-300 text-lg font-bold mb-2 border-b border-yellow-500 pb-1">
             {creature.name} - {creature.element} {creature.class}
           </h2>
           
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Creature card display */}
+            {/* Creature card display with image */}
             <div className="w-full md:w-1/3">
               <div className="relative bg-gradient-to-br from-blue-900 to-purple-900 border-2 border-yellow-300 rounded-lg overflow-hidden shadow-lg p-3">
-                {/* Stars and tags in one row */}
+                {/* Creature Image */}
+                <div className="relative w-full h-48 md:h-64 mb-3 rounded-lg overflow-hidden">
+                  {renderCardImage(creature.imageUrl, creature.name, "h-full")}
+                </div>
+                
                 <div className="flex justify-between items-center mb-2">
                   <div className="bg-black bg-opacity-60 px-2 py-1 rounded text-sm">
                     <span className="text-yellow-300">{creature.element}</span>
@@ -148,7 +173,7 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
           </div>
         </div>
 
-        {/* Items section */}
+        {/* Items section - Updated with images */}
         <div>
           <h2 className="text-yellow-300 text-lg font-bold mb-2 border-b border-yellow-500 pb-1">
             Equipped Items
@@ -177,7 +202,11 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
               
               return (
                 <div key={idx} className={`bg-gradient-to-br ${bgColor} border-2 border-yellow-300 rounded-lg overflow-hidden shadow-lg p-3 relative`}>
-                  {/* Stars and tags in one row */}
+                  {/* Item Image */}
+                  <div className="relative w-full h-32 mb-2 rounded-lg overflow-hidden">
+                    {renderCardImage(item.imageUrl, item.name, "h-full")}
+                  </div>
+                  
                   <div className="flex justify-between items-center mb-2">
                     <div className="bg-black bg-opacity-60 px-2 py-1 rounded text-xs">
                       <span className="text-yellow-300">{item.element}</span>
