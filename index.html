@@ -17,14 +17,31 @@
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- Constants and models -->
+    <script type="text/babel" src="src/constants/GameConstants.js"></script>
+    <script type="text/babel" src="src/models/CardModels.js"></script>
+    
+    <!-- Utils -->
     <script type="text/babel" src="src/utils/helpers.js"></script>
+    <script type="text/babel" src="src/utils/CardSetUtils.js"></script>
+    
+    <!-- Services -->
     <script type="text/babel" src="src/services/ApiService.js"></script>
+    <script type="text/babel" src="src/services/CreatureGenerationService.js"></script>
+    <script type="text/babel" src="src/services/ItemGenerationService.js"></script>
+    <script type="text/babel" src="src/services/CardSetGenerationService.js"></script>
+    <script type="text/babel" src="src/services/ImageGenerationService.js"></script>
+    
+    <!-- Components -->
     <script type="text/babel" src="src/components/GameStateInfo.js"></script>
     <script type="text/babel" src="src/components/GenerationInput.js"></script>
     <script type="text/babel" src="src/components/CardDisplay.js"></script>
     <script type="text/babel" src="src/components/CardInfoPanel.js"></script>
     <script type="text/babel" src="src/components/HandDisplay.js"></script>
+    <script type="text/babel" src="src/components/CardSetDisplay.js"></script>
     <script type="text/babel" src="src/components/CardGameInterface.js"></script>
+    
+    <!-- App entry point -->
     <script type="text/babel" src="src/app.js"></script>
 
 </body>
