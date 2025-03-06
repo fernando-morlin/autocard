@@ -120,25 +120,25 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
               </div>
             </div>
             
-            {/* Creature stats with item bonuses */}
+            {/* Creature stats with item bonuses - Improved display */}
             <div className="w-full md:w-2/3">
-              <h3 className="text-white text-md font-bold mb-2">Effective Stats with Equipment</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-                <div className="bg-red-900 bg-opacity-30 border border-red-700 rounded p-2">
-                  <div className="text-xs text-red-400">Health</div>
-                  <div className="text-white text-lg font-bold">{effectiveStats?.health || creature.health}</div>
+              <h3 className="text-white text-md font-bold mb-4 bg-blue-800 bg-opacity-50 p-2 rounded border-l-4 border-blue-400">Effective Stats with Equipment</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                <div className="stat-badge bg-gradient-to-br from-red-900 to-red-800 border border-red-700 rounded">
+                  <div className="stat-badge-label text-red-400">Health</div>
+                  <div className="stat-badge-value text-white">{effectiveStats?.health || creature.health}</div>
                 </div>
-                <div className="bg-yellow-900 bg-opacity-30 border border-yellow-700 rounded p-2">
-                  <div className="text-xs text-yellow-400">Power</div>
-                  <div className="text-white text-lg font-bold">{effectiveStats?.power || creature.power}</div>
+                <div className="stat-badge bg-gradient-to-br from-yellow-900 to-amber-800 border border-yellow-700 rounded">
+                  <div className="stat-badge-label text-yellow-400">Power</div>
+                  <div className="stat-badge-value text-white">{effectiveStats?.power || creature.power}</div>
                 </div>
-                <div className="bg-blue-900 bg-opacity-30 border border-blue-700 rounded p-2">
-                  <div className="text-xs text-blue-400">Defense</div>
-                  <div className="text-white text-lg font-bold">{effectiveStats?.defense || creature.defense}</div>
+                <div className="stat-badge bg-gradient-to-br from-blue-900 to-blue-800 border border-blue-700 rounded">
+                  <div className="stat-badge-label text-blue-400">Defense</div>
+                  <div className="stat-badge-value text-white">{effectiveStats?.defense || creature.defense}</div>
                 </div>
-                <div className="bg-green-900 bg-opacity-30 border border-green-700 rounded p-2">
-                  <div className="text-xs text-green-400">Agility</div>
-                  <div className="text-white text-lg font-bold">{effectiveStats?.agility || creature.agility}</div>
+                <div className="stat-badge bg-gradient-to-br from-green-900 to-green-800 border border-green-700 rounded">
+                  <div className="stat-badge-label text-green-400">Agility</div>
+                  <div className="stat-badge-value text-white">{effectiveStats?.agility || creature.agility}</div>
                 </div>
               </div>
               {effectiveStats?.bonuses && effectiveStats.bonuses.length > 0 && (

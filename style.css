@@ -116,23 +116,23 @@ button:active {
 /* Add to style.css - Image container improvements */
 .image-container {
   position: relative;
-  background: linear-gradient(to bottom, #1a202c, #000000);
-  border-radius: 0.5rem;
+  background: radial-gradient(circle, rgba(30,30,60,1) 0%, rgba(10,10,20,1) 100%);
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0.5rem;
+  aspect-ratio: 1/1;
 }
 
 /* Update the item-image class to center images properly */
 .item-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto; /* Center the image horizontally */
-  transition: transform 0.3s ease;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .item-image:hover {
@@ -143,9 +143,149 @@ button:active {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .creature-image:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
+}
+
+/* Elemental card frames */
+.card-frame {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+.card-frame:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* Element-specific styling */
+.card-frame.Fire { border: 3px solid #ff6b35; box-shadow: 0 0 15px rgba(255, 107, 53, 0.6); }
+.card-frame.Water { border: 3px solid #3a86ff; box-shadow: 0 0 15px rgba(58, 134, 255, 0.6); }
+.card-frame.Earth { border: 3px solid #5aa02c; box-shadow: 0 0 15px rgba(90, 160, 44, 0.6); }
+.card-frame.Air { border: 3px solid #90e0ef; box-shadow: 0 0 15px rgba(144, 224, 239, 0.6); }
+.card-frame.Light { border: 3px solid #fcbf49; box-shadow: 0 0 15px rgba(252, 191, 73, 0.6); }
+.card-frame.Shadow { border: 3px solid #8338ec; box-shadow: 0 0 15px rgba(131, 56, 236, 0.6); }
+
+/* Card title styling */
+.card-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 0.5px;
+  background: rgba(0,0,0,0.6);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.5rem;
+}
+
+/* Card stats styling */
+.card-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Card effect styling */
+.card-effect {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  padding: 0.75rem;
+  background: rgba(0,0,0,0.5);
+  border-radius: 6px;
+  border-left: 3px solid rgba(255,255,255,0.3);
+  margin: 0.5rem;
+}
+
+/* Card flavor text styling */
+.card-flavor {
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Game interface styling */
+.game-stats-panel {
+  position: relative;
+}
+
+.shadow-glow-red {
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.7);
+}
+
+.shadow-glow-blue {
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
+}
+
+/* Background animation */
+.animated-bg {
+  background-size: 300% 300%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Card set display improvements */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Card stat badges */
+.stat-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.stat-badge:hover {
+  transform: scale(1.05);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.stat-badge-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.stat-badge-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Game phases indicator */
+.phase-indicator {
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: phasePulse 2s infinite;
+}
+
+@keyframes phasePulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
