@@ -112,3 +112,40 @@ button:active {
     box-shadow: 0 0 25px rgba(255, 215, 0, 0.9); 
   }
 }
+
+/* Add to style.css - Image container improvements */
+.image-container {
+  position: relative;
+  background: linear-gradient(to bottom, #1a202c, #000000);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Update the item-image class to center images properly */
+.item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto; /* Center the image horizontally */
+  transition: transform 0.3s ease;
+}
+
+.item-image:hover {
+  transform: scale(1.05);
+}
+
+.creature-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.creature-image:hover {
+  transform: scale(1.02);
+}

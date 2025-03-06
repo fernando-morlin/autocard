@@ -18,7 +18,7 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
   }
 
   // Helper function to render image with loading state
-  const renderCardImage = (imageUrl, name, size = "h-48") => {
+  const renderCardImage = (imageUrl, name, type = "creature", size = "h-48") => {
     if (!imageUrl) {
       return (
         <div className={`w-full ${size} bg-gray-800 flex items-center justify-center animate-pulse`}>
@@ -27,15 +27,16 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
       );
     }
     
+    const imageClass = type === "item" ? "item-image" : "creature-image";
+    
     return (
-      <img 
-        src={imageUrl} 
-        alt={name}
-        className={`w-full ${size} object-cover`}
-        style={{
-          background: 'linear-gradient(to bottom, #1a202c, #2d3748)'
-        }}
-      />
+      <div className={`image-container w-full ${size}`}>
+        <img 
+          src={imageUrl} 
+          alt={name}
+          className={imageClass}
+        />
+      </div>
     );
   };
 
@@ -70,8 +71,8 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
             <div className="w-full md:w-1/3">
               <div className="relative bg-gradient-to-br from-blue-900 to-purple-900 border-2 border-yellow-300 rounded-lg overflow-hidden shadow-lg p-3">
                 {/* Creature Image */}
-                <div className="relative w-full h-48 md:h-64 mb-3 rounded-lg overflow-hidden">
-                  {renderCardImage(creature.imageUrl, creature.name, "h-full")}
+                <div className="relative w-full aspect-square mb-3 rounded-lg overflow-hidden">
+                  {renderCardImage(creature.imageUrl, creature.name, "creature", "h-full")}
                 </div>
                 
                 <div className="flex justify-between items-center mb-2">
@@ -203,8 +204,8 @@ const CardSetDisplay = ({ cardSet, isGenerating }) => {
               return (
                 <div key={idx} className={`bg-gradient-to-br ${bgColor} border-2 border-yellow-300 rounded-lg overflow-hidden shadow-lg p-3 relative`}>
                   {/* Item Image */}
-                  <div className="relative w-full h-32 mb-2 rounded-lg overflow-hidden">
-                    {renderCardImage(item.imageUrl, item.name, "h-full")}
+                  <div className="relative w-full aspect-square mb-2 rounded-lg overflow-hidden">
+                    {renderCardImage(item.imageUrl, item.name, "item", "h-full")}
                   </div>
                   
                   <div className="flex justify-between items-center mb-2">
